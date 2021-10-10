@@ -32,6 +32,7 @@ export default function Header(props) {
           <span>SERIES</span>
         </a>
       </NavMenu>
+      <Login>Login</Login>
     </Nav>
   );
 }
@@ -125,7 +126,23 @@ const NavMenu = styled.div`
     }
   }
 
-  /* @media (max-width: 768px) {
+  @media (max-width: 768px) {
     display: none;
-  } */
+  }
+`;
+
+const Login = styled.a`
+  background-color: #000;
+  padding: 8px 16px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  border: solid 1px #f9f9f9;
+  border-radius: 4px;
+  transition: all 0.2s ease 0;
+
+  &:hover {
+    background-color: #f9f9f9;
+    color: #000;
+    border-color: transparent;
+  }
 `;
