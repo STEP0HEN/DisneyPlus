@@ -1,6 +1,10 @@
 import styled from "styled-components";
+import { auth, provider } from "../DB/firebase";
 
 export default function Header(props) {
+  const handleGoogleAuth = () => {
+    auth.signInWithPopup(provider).then((result) => console.log(result));
+  };
   return (
     <Nav>
       <Logo>
@@ -32,7 +36,7 @@ export default function Header(props) {
           <span>SERIES</span>
         </a>
       </NavMenu>
-      <Login>Login</Login>
+      <Login onClick={handleGoogleAuth}>Login</Login>
     </Nav>
   );
 }
