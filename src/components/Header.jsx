@@ -3,7 +3,10 @@ import { auth, provider } from "../DB/firebase";
 
 export default function Header(props) {
   const handleGoogleAuth = () => {
-    auth.signInWithPopup(provider).then((result) => console.log(result));
+    auth
+      .signInWithPopup(provider)
+      .then((result) => console.log(result))
+      .catch((error) => console.log(error.message));
   };
   return (
     <Nav>
