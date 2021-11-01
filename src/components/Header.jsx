@@ -1,5 +1,5 @@
+import { useEffect } from "react";
 import styled from "styled-components";
-import { useReducer } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { auth, provider } from "../DB/firebase";
@@ -8,6 +8,7 @@ import {
   SelectUserEmail,
   SelectUserPhoto,
   setUserLoginDetails,
+  setSignOutState,
 } from "../features/User/UserSlice";
 
 export default function Header(props) {
@@ -18,21 +19,41 @@ export default function Header(props) {
   const userPhoto = useSelector(SelectUserPhoto);
   const userEmail = useSelector(SelectUserEmail);
 
+  useEffect(
+    () =>
+      auth.onAuthStateChanged(async (user) => {
+        user && setUser(user) && history.push("/home");
+      }),
+    [userName]
+  );
+
   const setUser = (user) => {
     dispatch(
       setUserLoginDetails({
         name: user.displayName,
         email: user.email,
-        photo: user.photoUrl,
+        photo: user.photoURL,
       })
     );
   };
 
   const handleGoogleAuth = () => {
-    auth
-      .signInWithPopup(provider)
-      .then((result) => setUser(result.user))
-      .catch((error) => console.log(error.message));
+    !userName
+      ? auth
+          .signInWithPopup(provider)
+          .then((result) => {
+            console.log(result);
+            setUser(result.user);
+          })
+          .catch((error) => console.log(error.message))
+      : userName &&
+        auth
+          .signOut()
+          .then(() => {
+            dispatch(setSignOutState());
+            history.push("/");
+          })
+          .catch((error) => error.message);
   };
   return (
     <Nav>
@@ -69,7 +90,12 @@ export default function Header(props) {
               <span>SERIES</span>
             </a>
           </NavMenu>
-          <UserImage src={userPhoto} alt={userName} />
+          <SignOut>
+            <UserImage src={userPhoto} alt={userName} />
+            <DropDown>
+              <span onClick={handleGoogleAuth}>Sign out </span>
+            </DropDown>
+          </SignOut>
         </>
       )}
     </Nav>
@@ -188,4 +214,42 @@ const Login = styled.a`
 
 const UserImage = styled.img`
   height: 100%;
+`;
+
+const DropDown = styled.div`
+  position: absolute;
+  top: 48px;
+  right: 0px;
+  background: #131313;
+  border: 1px solid #979797;
+  border-radius: 4px;
+  box-shadow: rgb(0 0 0 / 50%) 0px 0px 18px 0px;
+  padding: 10px;
+  font-size: 14px;
+  letter-spacing: 3px;
+  width: 100px;
+  opacity: 0;
+`;
+
+const SignOut = styled.div`
+  position: relative;
+  height: 48px;
+  width: 48px;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+
+  ${UserImage} {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+  }
+
+  &:hover {
+    ${DropDown} {
+      opacity: 1;
+      transition-duration: 1s;
+    }
+  }
 `;
