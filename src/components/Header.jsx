@@ -1,11 +1,37 @@
 import styled from "styled-components";
+import { useReducer } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router";
 import { auth, provider } from "../DB/firebase";
+import {
+  SelectUsername,
+  SelectUserEmail,
+  SelectUserPhoto,
+  setUserLoginDetails,
+} from "../features/User/UserSlice";
 
 export default function Header(props) {
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const userName = useSelector(SelectUsername);
+  const userPhoto = useSelector(SelectUserPhoto);
+  const userEmail = useSelector(SelectUserEmail);
+
+  const setUser = (user) => {
+    dispatch(
+      setUserLoginDetails({
+        name: user.displayName,
+        email: user.email,
+        photo: user.photoUrl,
+      })
+    );
+  };
+
   const handleGoogleAuth = () => {
     auth
       .signInWithPopup(provider)
-      .then((result) => console.log(result))
+      .then((result) => setUser(result.user))
       .catch((error) => console.log(error.message));
   };
   return (
@@ -13,33 +39,39 @@ export default function Header(props) {
       <Logo>
         <img src="/images/logo.svg" alt="disney plus logo" />
       </Logo>
-      <NavMenu>
-        <a href="/home">
-          <img src="/images/home-icon.svg" alt="home icon" />
-          <span>HOME</span>
-        </a>
-        <a href="no-link">
-          <img src="/images/search-icon.svg" alt="search icon" />
-          <span>SEARCH</span>
-        </a>
-        <a href="no-link">
-          <img src="/images/watchlist-icon.svg" alt="plus icon" />
-          <span>WATCHLIST</span>
-        </a>
-        <a href="no-link">
-          <img src="/images/original-icon.svg" alt="star icon" />
-          <span>ORIGINALS</span>
-        </a>
-        <a href="no-link">
-          <img src="/images/movie-icon.svg" alt="movie icon" />
-          <span>MOVIES</span>
-        </a>
-        <a href="no-link">
-          <img src="/images/series-icon.svg" alt="tv icon" />
-          <span>SERIES</span>
-        </a>
-      </NavMenu>
-      <Login onClick={handleGoogleAuth}>Login</Login>
+      {!userName ? (
+        <Login onClick={handleGoogleAuth}>Login</Login>
+      ) : (
+        <>
+          <NavMenu>
+            <a href="/home">
+              <img src="/images/home-icon.svg" alt="home icon" />
+              <span>HOME</span>
+            </a>
+            <a href="no-link">
+              <img src="/images/search-icon.svg" alt="search icon" />
+              <span>SEARCH</span>
+            </a>
+            <a href="no-link">
+              <img src="/images/watchlist-icon.svg" alt="plus icon" />
+              <span>WATCHLIST</span>
+            </a>
+            <a href="no-link">
+              <img src="/images/original-icon.svg" alt="star icon" />
+              <span>ORIGINALS</span>
+            </a>
+            <a href="no-link">
+              <img src="/images/movie-icon.svg" alt="movie icon" />
+              <span>MOVIES</span>
+            </a>
+            <a href="no-link">
+              <img src="/images/series-icon.svg" alt="tv icon" />
+              <span>SERIES</span>
+            </a>
+          </NavMenu>
+          <UserImage src={userPhoto} alt={userName} />
+        </>
+      )}
     </Nav>
   );
 }
@@ -152,4 +184,8 @@ const Login = styled.a`
     color: #000;
     border-color: transparent;
   }
+`;
+
+const UserImage = styled.img`
+  height: 100%;
 `;
