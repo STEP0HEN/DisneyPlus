@@ -37,6 +37,8 @@
     ]
   },
   "devDependencies": {
+    "@reduxjs/toolkit": "^1.6.2",
+    "react-redux": "^7.2.6",
     "react-router-dom": "^5.3.0",
     "styled-components": "^5.3.1"
   }
