@@ -5,18 +5,33 @@ export default function Viewers(props) {
     <Container>
       <Wrapper>
         <img src="/images/viewers-disney.png" alt="disney icon" />
+        <video autoPlay={true} loop={true} playsInline={true}>
+          <source src="/videos/disney.mp4" type="video/mp4" />
+        </video>
       </Wrapper>
       <Wrapper>
         <img src="/images/viewers-pixar.png" alt="disney icon" />
+        <video autoPlay={true} loop={true} playsInline={true}>
+          <source src="/videos/marvel.mp4" type="video/mp4" />
+        </video>
       </Wrapper>
       <Wrapper>
         <img src="/images/viewers-marvel.png" alt="disney icon" />
+        <video autoPlay={true} loop={true} playsInline={true}>
+          <source src="/videos/national-geographic.mp4" type="video/mp4" />
+        </video>
       </Wrapper>
       <Wrapper>
         <img src="/images/viewers-starwars.png" alt="disney icon" />
+        <video autoPlay={true} loop={true} playsInline={true}>
+          <source src="/videos/pixar.mp4" type="video/mp4" />
+        </video>
       </Wrapper>
       <Wrapper>
         <img src="/images/viewers-national.png" alt="disney icon" />
+        <video autoPlay={true} loop={true} playsInline={true}>
+          <source src="/videos/star-wars.mp4" type="video/mp4" />
+        </video>
       </Wrapper>
     </Container>
   );
@@ -56,5 +71,25 @@ const Wrapper = styled.div`
     position: absolute;
     transition: opacity 500ms ease-in-out 0s;
     z-index: 1;
+  }
+
+  video {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    z-index: 0;
+  }
+
+  &:hover {
+    box-shadow: rgb(0 0 0 / 80%) 0px 40px 58px -16px,
+      rgb(0 0 0 / 72%) 0px 30px 22px -10px;
+    transform: scale(1.05);
+    border-color: #f9f9f9;
+
+    video {
+      opacity: 1;
+    }
   }
 `;
