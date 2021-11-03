@@ -93,5 +93,11 @@ const Wrapper = styled.div`
       width: 100%;
       height: 100%;
     }
+
+    &:hover {
+      padding: 0;
+      border: 4px solid #f9f9f9;
+      transition-duration: 300ms;
+    }
   }
 `;
