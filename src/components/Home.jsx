@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import ImageCarousel from "./ImageCarousel";
+import Recommends from "./Recommends";
 import Viewers from "./Viewers";
 
 export default function Home(props) {
@@ -7,6 +8,7 @@ export default function Home(props) {
     <Container>
       <ImageCarousel />
       <Viewers />
+      <Recommends />
     </Container>
   );
 }
