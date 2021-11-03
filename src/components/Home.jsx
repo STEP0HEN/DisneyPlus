@@ -1,14 +1,12 @@
 import styled from "styled-components";
 import ImageCarousel from "./ImageCarousel";
+import Viewers from "./Viewers";
 
 export default function Home(props) {
   return (
     <Container>
-      <h2>Hello</h2>
-      <h2>Hello</h2>
-      <h2>Hello</h2>
-      <h2>Hello</h2>
-      <ImageCarousel></ImageCarousel>
+      <ImageCarousel />
+      <Viewers />
     </Container>
   );
 }
