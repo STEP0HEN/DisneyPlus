@@ -1,6 +1,9 @@
 import styled from "styled-components";
+import DisneyChannel from "./DisneyChannel";
+import DisneyOriginals from "./DisneyOriginals";
 import ImageCarousel from "./ImageCarousel";
 import Recommends from "./Recommends";
+import TrendingNow from "./Trending";
 import Viewers from "./Viewers";
 
 export default function Home(props) {
@@ -9,6 +12,9 @@ export default function Home(props) {
       <ImageCarousel />
       <Viewers />
       <Recommends />
+      <DisneyChannel />
+      <DisneyOriginals />
+      <TrendingNow />
     </Container>
   );
 }

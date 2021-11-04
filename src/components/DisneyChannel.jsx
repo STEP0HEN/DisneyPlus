@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-export default function Recommends(props) {
+export default function DisneyChannel(props) {
   return (
     <Container>
-      <h2>Recommended for you</h2>
+      <h2>Recent movies</h2>
       <Content>
         <Wrapper>
           <Link to="/">
