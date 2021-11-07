@@ -5,8 +5,16 @@ import ImageCarousel from "./ImageCarousel";
 import Recommends from "./Recommends";
 import TrendingNow from "./Trending";
 import Viewers from "./Viewers";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import db from "../DB/firebase";
+import { setMovies } from "../features/User/movie/MovieSlice";
+import { SelectUsername } from "../features/User/UserSlice";
 
 export default function Home(props) {
+  const dispatch = useDispatch();
+  const userName = useSelector(SelectUsername);
+  
   return (
     <Container>
       <ImageCarousel />
