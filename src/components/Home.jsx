@@ -14,7 +14,44 @@ import { SelectUsername } from "../features/User/UserSlice";
 export default function Home(props) {
   const dispatch = useDispatch();
   const userName = useSelector(SelectUsername);
-  
+  let recommends = [];
+  let disneyChannel = [];
+  let disneyOriginals = [];
+  let trendingNow = [];
+
+  useEffect(() => {
+    console.log(db);
+    db.collections("movies").onSnapshot((snapshot) => {
+      snapshot.docs.map((doc) => {
+        console.log(recommends);
+        switch (doc.data().type) {
+          case "recommend":
+            recommends = [...recommends, { id: doc.id, ...doc.data() }];
+            break;
+          case "new":
+            disneyChannel = [...disneyChannel, { id: doc.id, ...doc.data() }];
+            break;
+          case "original":
+            disneyOriginals = [
+              ...disneyOriginals,
+              { id: doc.id, ...doc.data() },
+            ];
+            break;
+          case "trending":
+            trendingNow = [...trendingNow, { id: doc.id, ...doc.data() }];
+            break;
+        }
+      });
+    });
+    dispatch(
+      setMovies({
+        recommend: recommends,
+        newDisney: disneyChannel,
+        original: disneyChannel,
+        trending: trendingNow,
+      })
+    );
+  }, [userName]);
   return (
     <Container>
       <ImageCarousel />
