@@ -7,6 +7,7 @@ import TrendingNow from "./Trending";
 import Viewers from "./Viewers";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { collection, getDocs } from "firebase/firestore";
 import db from "../DB/firebase";
 import { setMovies } from "../features/User/movie/MovieSlice";
 import { SelectUsername } from "../features/User/UserSlice";
@@ -20,7 +21,13 @@ export default function Home(props) {
   let trendingNow = [];
 
   useEffect(() => {
-    console.log(db);
+    const querySnapshot = getDocs(collection(db, "movies"));
+    console.log(
+      querySnapshot.then((m) => m).then((m) => m._snapshot.docChanges)
+    );
+    querySnapshot.forEach((doc) => {
+      console.log(`${doc.id} => ${doc.data()}`);
+    });
     db.collections("movies").onSnapshot((snapshot) => {
       snapshot.docs.map((doc) => {
         console.log(recommends);
